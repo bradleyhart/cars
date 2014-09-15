@@ -2,15 +2,11 @@ package org.fazz.tomcat;
 
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.core.AprLifecycleListener;
-import org.apache.catalina.core.StandardContext;
 import org.apache.catalina.core.StandardServer;
 import org.apache.catalina.startup.Tomcat;
-import org.apache.naming.resources.VirtualDirContext;
 
 import javax.servlet.ServletException;
 import java.io.File;
-
-import static org.fazz.CarsInitializer.createAppServlet;
 
 public class EmbeddedTomcat {
 
