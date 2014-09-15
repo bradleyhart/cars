@@ -7,9 +7,6 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
-    <name>cars</name>
-    <url>http://maven.apache.org</url>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -84,10 +81,10 @@
                 </executions>
                 <configuration>
                     <includes>
-                        <include>**/integration/**Should.java</include>
-                        <include>**/integration/**Should.groovy</include>
-                        <include>**/integration/**Test.groovy</include>
-                        <include>**/integration/**Test.java</include>
+                        <include>**/integration/**/*Should.java</include>
+                        <include>**/integration/**/*Should.groovy</include>
+                        <include>**/integration/**/*Test.groovy</include>
+                        <include>**/integration/**/*Test.java</include>
                     </includes>
                 </configuration>
             </plugin>
@@ -99,7 +96,19 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>4.0.5.RELEASE</version>
+            <version>4.0.6.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>4.0.6.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>2.3.20</version>
         </dependency>
 
         <dependency>
@@ -108,13 +117,6 @@
             <version>3.0.1</version>
             <scope>provided</scope>
         </dependency>
-
-        <!--<dependency>-->
-        <!--<groupId>javax.servlet</groupId>-->
-        <!--<artifactId>jsp-api</artifactId>-->
-        <!--<version>2.0</version>-->
-        <!--<scope>provided</scope>-->
-        <!--</dependency>-->
 
         <dependency>
             <groupId>junit</groupId>
@@ -148,6 +150,13 @@
             <groupId>org.gebish</groupId>
             <artifactId>geb-spock</artifactId>
             <version>0.9.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-htmlunit-driver</artifactId>
+            <version>2.42.2</version>
             <scope>test</scope>
         </dependency>
 

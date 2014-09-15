@@ -8,12 +8,19 @@ import org.apache.catalina.startup.Tomcat;
 import javax.servlet.ServletException;
 import java.io.File;
 
-public class EmbeddedTomcat {
+public class WebApplication {
 
     public static void main(String[] args) throws ServletException, LifecycleException {
-        new EmbeddedTomcat().start();
+        new WebApplication().start();
     }
 
+    private static boolean started = false;
+    public static void isRunning() throws ServletException, LifecycleException {
+        if(!started){
+            new WebApplication().start();
+            started = true;
+        }
+    }
 
     public void start() throws ServletException, LifecycleException {
         Tomcat tomcat = new Tomcat();

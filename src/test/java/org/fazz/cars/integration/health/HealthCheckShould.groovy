@@ -1,13 +1,13 @@
-package org.fazz.cars.integration
+package org.fazz.cars.integration.health
 
-import org.fazz.tomcat.EmbeddedTomcat
+import org.fazz.tomcat.WebApplication
 import spock.lang.Specification
 
 class HealthCheckShould extends Specification {
 
     def "application can start in a tomcat 7 container"(){
         given:
-        new EmbeddedTomcat().start()
+        WebApplication.isRunning()
 
         when:
         def response = new URL("http://localhost:8080/health").text
