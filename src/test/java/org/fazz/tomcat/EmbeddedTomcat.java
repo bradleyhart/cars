@@ -31,6 +31,5 @@ public class EmbeddedTomcat {
 
         tomcat.addWebapp(contextPath, webapp);
         tomcat.start();
-        tomcat.getServer().await();
     }
 }
