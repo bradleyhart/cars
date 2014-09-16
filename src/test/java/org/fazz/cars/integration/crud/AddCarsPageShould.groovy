@@ -43,10 +43,13 @@ class AddCarsPageShould extends GebReportingSpec {
         $("form").model() << "206"
         $("form").year() << "2014"
         $("form").price() << "30000"
+        $("#add").click(ViewCarPage)
 
         then:
-        $("#add").click(ViewCarPage)
+        $("#make").text() == "Peugeot"
+        $("#model").text() == "206"
+        $("#year").text() == "2,014"
+        $("#price").text() == "30,000"
     }
-
 
 }
