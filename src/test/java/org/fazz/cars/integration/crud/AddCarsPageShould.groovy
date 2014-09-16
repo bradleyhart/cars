@@ -3,6 +3,7 @@ package org.fazz.cars.integration.crud
 import geb.spock.GebReportingSpec
 import org.fazz.cars.integration.page.AddCarPage
 import org.fazz.cars.integration.page.ViewCarPage
+import org.fazz.mongo.MongoDb
 import org.fazz.tomcat.WebApplication
 
 class AddCarsPageShould extends GebReportingSpec {
@@ -35,6 +36,7 @@ class AddCarsPageShould extends GebReportingSpec {
 
     def "can submit information and get redirected"() {
         given:
+        MongoDb.isRunning()
         WebApplication.isRunning()
 
         when:

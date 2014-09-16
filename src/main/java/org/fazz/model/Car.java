@@ -1,7 +1,8 @@
-package org.fazz.domain;
+package org.fazz.model;
 
 public class Car {
 
+    private String id;
     private String make;
     private String model;
     private Integer year;
@@ -16,6 +17,10 @@ public class Car {
         this.model = model;
         this.year = year;
         this.price = price;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getMake() {
