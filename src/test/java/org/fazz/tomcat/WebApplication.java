@@ -11,7 +11,8 @@ import java.io.File;
 public class WebApplication {
 
     public static void main(String[] args) throws ServletException, LifecycleException {
-        new WebApplication().start();
+        Tomcat tomcat = new WebApplication().start();
+        tomcat.getServer().await();
     }
 
     private static boolean started = false;
@@ -22,7 +23,7 @@ public class WebApplication {
         }
     }
 
-    public void start() throws ServletException, LifecycleException {
+    public Tomcat start() throws ServletException, LifecycleException {
         Tomcat tomcat = new Tomcat();
         tomcat.setPort(8080);
 
@@ -38,5 +39,6 @@ public class WebApplication {
 
         tomcat.addWebapp(contextPath, webapp);
         tomcat.start();
+        return tomcat;
     }
 }
