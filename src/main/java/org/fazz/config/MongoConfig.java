@@ -1,5 +1,6 @@
 package org.fazz.config;
 
+import org.fazz.service.MongoDbCarListings;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.MongoDbFactory;
@@ -25,6 +26,11 @@ public class MongoConfig {
     @Bean
     public MongoTemplate mongoTemplate() throws Exception {
         return new MongoTemplate(mongoDbFactory());
+    }
+
+    @Bean
+    public MongoDbCarListings mongoDbCarListings() throws Exception {
+        return new MongoDbCarListings(mongoTemplate());
     }
 
 }
