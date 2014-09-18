@@ -13,7 +13,7 @@ private boolean isRunningAlready(String databaseLocation, String databaseName) {
 }
 
 def run(String command) {
-    println "Running $command"
+//    println "Running $command"
     def process = command.execute()
     process.waitFor()
     def text = process.text

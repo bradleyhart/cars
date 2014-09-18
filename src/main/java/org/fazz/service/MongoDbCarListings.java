@@ -34,4 +34,4 @@ public class MongoDbCarListings implements CarListings {
         return mongoTemplate.find(query(carSearch.toCriteria()), Car.class);
     }
 
-   }
+}
