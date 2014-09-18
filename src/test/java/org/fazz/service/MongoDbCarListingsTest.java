@@ -4,7 +4,6 @@ package org.fazz.service;
 import org.fazz.model.Car;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 import java.util.ArrayList;
@@ -14,9 +13,7 @@ import static org.fazz.model.Car.car;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class MongoDbCarListingsTest {
 
@@ -65,5 +62,6 @@ public class MongoDbCarListingsTest {
 
         assertThat(actualCar, is(equalTo(expectedCar)));
     }
+
 
 }

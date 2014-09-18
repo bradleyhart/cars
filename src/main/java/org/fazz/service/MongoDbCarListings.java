@@ -5,6 +5,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 
 import java.util.List;
 
+import static org.springframework.data.mongodb.core.query.Query.query;
+
 public class MongoDbCarListings implements CarListings {
 
     private MongoTemplate mongoTemplate;
@@ -28,4 +30,8 @@ public class MongoDbCarListings implements CarListings {
         return mongoTemplate.findAll(Car.class);
     }
 
-}
+    public List<Car> match(CarSearch carSearch) {
+        return mongoTemplate.find(query(carSearch.toCriteria()), Car.class);
+    }
+
+   }

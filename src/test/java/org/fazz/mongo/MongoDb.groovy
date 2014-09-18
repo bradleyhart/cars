@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.MongoTemplate
 
 class MongoDb {
 
-    static boolean started = false
+    private static boolean started = false
 
     static isRunning() {
         new Thread({
@@ -18,12 +18,19 @@ class MongoDb {
         started = true
     }
 
-    static AnnotationConfigApplicationContext mongoContext
     static def isEmpty() {
+        getMongoTemplate().dropCollection(Car)
+    }
+
+    private static AnnotationConfigApplicationContext mongoContext
+    static def getMongoContext(){
         if(!mongoContext){
             mongoContext = new AnnotationConfigApplicationContext(MongoConfig)
         }
-        def mongoTemplate = mongoContext.getBean(MongoTemplate)
-        mongoTemplate.dropCollection(Car)
+        mongoContext
+    }
+
+    static MongoTemplate getMongoTemplate(){
+        getMongoContext().getBean(MongoTemplate)
     }
 }
