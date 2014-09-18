@@ -8,12 +8,16 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.fazz.model.Car.car;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class CarControllerTest {
 
@@ -40,12 +44,29 @@ public class CarControllerTest {
     @Test
     public void viewCarFromListings() {
         Car car = car("Ferrari", "Enzo", 2003, 999999);
-        Mockito.when(carListings.get("car-id")).thenReturn(car);
+        when(carListings.get("car-id")).thenReturn(car);
 
         ModelAndView modelAndView = carController.viewCarPage("car-id");
 
         assertThat((Car) modelAndView.getModel().get("car"), is(equalTo(car)));
         assertThat(modelAndView.getViewName(), is(equalTo("view-car")));
+    }
+
+    @Test
+    public void viewAllCars() {
+        final Car car1 = car("Ferrari", "Enzo", 2003, 999999);
+        final Car car2 = car("Ferrari", "Enzo", 2003, 999999);
+        List<Car> cars = new ArrayList<Car>(){{
+            add(car1);
+            add(car2);
+        }};
+
+        when(carListings.get()).thenReturn(cars);
+
+        ModelAndView modelAndView = carController.viewCars();
+
+        assertThat((ArrayList<Car>) modelAndView.getModel().get("cars"), is(equalTo(cars)));
+        assertThat(modelAndView.getViewName(), is(equalTo("view-cars")));
     }
 
 }
