@@ -2,10 +2,9 @@ def databaseLocation = "/home/brad"
 def databaseName = "cars"
 def mongodLocation = "/home/brad/software/mongodb/mongodb-linux-x86_64-2.6.4/bin/mongod"
 
-run "rm -rf $databaseLocation/$databaseName"
-run "mkdir -p $databaseLocation/$databaseName"
-
-if(!isRunningAlready(databaseLocation, databaseName)){
+if (!isRunningAlready(databaseLocation, databaseName)) {
+    run "rm -rf $databaseLocation/$databaseName"
+    run "mkdir -p $databaseLocation/$databaseName"
     run "$mongodLocation --dbpath $databaseLocation/$databaseName"
 }
 
@@ -13,7 +12,7 @@ private boolean isRunningAlready(String databaseLocation, String databaseName) {
     run("ps -aux").contains("$databaseLocation/$databaseName")
 }
 
-def run(String command){
+def run(String command) {
     println "Running $command"
     def process = command.execute()
     process.waitFor()
