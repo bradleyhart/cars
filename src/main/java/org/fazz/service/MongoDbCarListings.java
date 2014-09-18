@@ -26,7 +26,7 @@ public class MongoDbCarListings implements CarListings {
     }
 
     @Override
-    public List<Car> get() {
+    public List<Car> all() {
         return mongoTemplate.findAll(Car.class);
     }
 

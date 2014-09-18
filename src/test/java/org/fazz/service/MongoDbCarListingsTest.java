@@ -39,7 +39,7 @@ public class MongoDbCarListingsTest {
 
         when(mongoTemplate.findAll(Car.class)).thenReturn(expectedCars);
 
-        List<Car> actualCars = mongoDbCarListings.get();
+        List<Car> actualCars = mongoDbCarListings.all();
 
         assertThat(actualCars, is(equalTo(expectedCars)));
     }

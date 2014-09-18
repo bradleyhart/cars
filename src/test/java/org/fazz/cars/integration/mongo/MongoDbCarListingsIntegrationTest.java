@@ -154,7 +154,7 @@ public class MongoDbCarListingsIntegrationTest {
     }
 
     @Test
-    public void findNoCarThatMatchesCombinationsWhenOneDoesntMatch() {
+    public void findNoCarsWhenOneCriteriaDoesNotMatch() {
         Car audi = car("Audi", "A6", 2004, 40000);
         mongoDbCarListings.add(audi);
         mongoDbCarListings.add(car("Jaguar", "X6", 2005, 30000));

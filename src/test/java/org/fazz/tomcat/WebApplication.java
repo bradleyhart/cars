@@ -24,20 +24,14 @@ public class WebApplication {
     }
 
     public Tomcat start() throws ServletException, LifecycleException {
+        String webappLocation = new File("src/main/webapp").getAbsolutePath();
+
         Tomcat tomcat = new Tomcat();
         tomcat.setPort(8080);
-
         tomcat.setBaseDir(".");
-        String webapp = new File("src/main/webapp").getAbsolutePath();
-        tomcat.getHost().setAppBase(webapp);
-
-        String contextPath = "/";
-
-        StandardServer server = (StandardServer)tomcat.getServer();
-        AprLifecycleListener listener = new AprLifecycleListener();
-        server.addLifecycleListener(listener);
-
-        tomcat.addWebapp(contextPath, webapp);
+        tomcat.getHost().setAppBase(webappLocation);
+        tomcat.getServer().addLifecycleListener(new AprLifecycleListener());
+        tomcat.addWebapp("/", webappLocation);
         tomcat.start();
         return tomcat;
     }

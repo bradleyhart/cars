@@ -41,7 +41,7 @@ public class CarController {
     @RequestMapping(value = "/view-cars", method = RequestMethod.GET)
     public ModelAndView viewCars() {
         ModelAndView modelAndView = new ModelAndView("view-cars");
-        modelAndView.addObject("cars", carListings.get());
+        modelAndView.addObject("cars", carListings.all());
         return modelAndView;
     }
 }

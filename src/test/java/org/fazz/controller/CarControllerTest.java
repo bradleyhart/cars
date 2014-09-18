@@ -58,7 +58,7 @@ public class CarControllerTest {
             add(car2);
         }};
 
-        when(carListings.get()).thenReturn(cars);
+        when(carListings.all()).thenReturn(cars);
 
         ModelAndView modelAndView = carController.viewCars();
 

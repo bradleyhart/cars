@@ -10,5 +10,5 @@ public interface CarListings {
 
     Car get(String ca);
 
-    List<Car> get();
+    List<Car> all();
 }
