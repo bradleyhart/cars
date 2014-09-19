@@ -11,4 +11,6 @@ public interface CarListings {
     Car get(String ca);
 
     List<Car> all();
+
+    List<String> make(String startsWith);
 }

@@ -6,6 +6,8 @@ import org.fazz.service.CarSearch;
 import org.fazz.service.MongoDbCarListings;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 
@@ -167,6 +169,21 @@ public class MongoDbCarListingsIntegrationTest {
         List<Car> cars = mongoDbCarListings.match(search);
 
         assertThat(cars.size(), is(0));
+    }
+
+    @Test
+    public void findAllMakesStartingWith() {
+        mongoDbCarListings.add(car("Audi", "A6", 1920, 40000));
+        mongoDbCarListings.add(car("Audi", "A6", 2004, 40000));
+        mongoDbCarListings.add(car("Austin Martin", "34", 2005, 30000));
+        mongoDbCarListings.add(car("Jaguar", "X6", 2005, 30000));
+        mongoDbCarListings.add(car("Nissan", "ZX", 2006, 10000));
+
+        List<String> makes = mongoDbCarListings.make("A");
+
+        assertThat(makes.size(), is(2));
+        assertThat(makes.get(0), is(equalTo("Audi")));
+        assertThat(makes.get(1), is(equalTo("Austin Martin")));
     }
 
 
