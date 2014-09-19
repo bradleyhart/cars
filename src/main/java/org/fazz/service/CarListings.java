@@ -13,4 +13,6 @@ public interface CarListings {
     List<Car> all();
 
     List<String> make(String startsWith);
+
+    List<String> model(String startsWith);
 }

@@ -3,15 +3,9 @@ package org.fazz.service;
 import com.mongodb.*;
 import org.fazz.model.Car;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.mapreduce.GroupBy;
-import org.springframework.data.mongodb.core.query.BasicQuery;
-import org.springframework.data.mongodb.core.query.Criteria;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.springframework.data.mongodb.core.query.Query.query;
 
@@ -40,17 +34,26 @@ public class MongoDbCarListings implements CarListings {
 
     @Override
     public List<String> make(String startsWith) {
+        return exeuteStartsWithGroup(startsWith, "make");
+    }
+
+    @Override
+    public List<String> model(String startsWith) {
+        return exeuteStartsWithGroup(startsWith, "model");
+    }
+
+    private List<String> exeuteStartsWithGroup(String startsWith, String field) {
         DBCollection cars = mongoTemplate.getCollection("car");
         GroupCommand cmd = new GroupCommand(cars,
-                new BasicDBObject("make", 1),
-                new BasicDBObject("make", new BasicDBObject("$regex", "^" + startsWith)),
+                new BasicDBObject(field, 1),
+                new BasicDBObject(field, new BasicDBObject("$regex", "^" + startsWith)),
                 new BasicDBObject("count", 0),
                 "function(obj,prev) {prev.count++;}",
                 null);
 
         BasicDBList results = (BasicDBList) cars.group(cmd);
         ArrayList<String> makes = new ArrayList<>();
-        results.forEach((dbObject) -> makes.add((String) ((BasicDBObject) dbObject).get("make")));
+        results.forEach((dbObject) -> makes.add((String) ((BasicDBObject) dbObject).get(field)));
         return makes;
     }
 

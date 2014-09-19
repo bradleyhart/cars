@@ -200,5 +200,35 @@ public class MongoDbCarListingsIntegrationTest {
         assertThat(makes.get(0), is(equalTo("Audi")));
     }
 
+    @Test
+    public void findAllModelStartingWith() {
+        mongoDbCarListings.add(car("Audi", "A6", 1920, 40000));
+        mongoDbCarListings.add(car("Audi", "A10", 2004, 40000));
+        mongoDbCarListings.add(car("Austin Martin", "34", 2005, 30000));
+        mongoDbCarListings.add(car("Jaguar", "X6", 2005, 30000));
+        mongoDbCarListings.add(car("Nissan", "ZX", 2006, 10000));
+
+        List<String> makes = mongoDbCarListings.model("A");
+
+        assertThat(makes.size(), is(2));
+        assertThat(makes.get(0), is(equalTo("A6")));
+        assertThat(makes.get(1), is(equalTo("A10")));
+    }
+
+    @Test
+    public void findAllModelStartingWithMorePrecise() {
+        mongoDbCarListings.add(car("Audi", "A102", 1920, 40000));
+        mongoDbCarListings.add(car("Audi", "A101", 2004, 40000));
+        mongoDbCarListings.add(car("Austin Martin", "34", 2005, 30000));
+        mongoDbCarListings.add(car("Jaguar", "X6", 2005, 30000));
+        mongoDbCarListings.add(car("Nissan", "ZX", 2006, 10000));
+
+        List<String> makes = mongoDbCarListings.model("A10");
+
+        assertThat(makes.size(), is(2));
+        assertThat(makes.get(0), is(equalTo("A102")));
+        assertThat(makes.get(1), is(equalTo("A101")));
+    }
+
 
 }
