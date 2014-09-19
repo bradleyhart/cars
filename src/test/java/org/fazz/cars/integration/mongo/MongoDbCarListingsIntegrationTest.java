@@ -186,5 +186,19 @@ public class MongoDbCarListingsIntegrationTest {
         assertThat(makes.get(1), is(equalTo("Austin Martin")));
     }
 
+    @Test
+    public void findAllMakesStartingWithMorePrecise() {
+        mongoDbCarListings.add(car("Audi", "A6", 1920, 40000));
+        mongoDbCarListings.add(car("Audi", "A6", 2004, 40000));
+        mongoDbCarListings.add(car("Austin Martin", "34", 2005, 30000));
+        mongoDbCarListings.add(car("Jaguar", "X6", 2005, 30000));
+        mongoDbCarListings.add(car("Nissan", "ZX", 2006, 10000));
+
+        List<String> makes = mongoDbCarListings.make("Aud");
+
+        assertThat(makes.size(), is(1));
+        assertThat(makes.get(0), is(equalTo("Audi")));
+    }
+
 
 }

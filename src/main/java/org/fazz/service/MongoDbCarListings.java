@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.springframework.data.mongodb.core.query.Query.query;
 
@@ -42,17 +43,14 @@ public class MongoDbCarListings implements CarListings {
         DBCollection cars = mongoTemplate.getCollection("car");
         GroupCommand cmd = new GroupCommand(cars,
                 new BasicDBObject("make", 1),
-                new BasicDBObject("make", new BasicDBObject("$regex", "^A")),
+                new BasicDBObject("make", new BasicDBObject("$regex", "^" + startsWith)),
                 new BasicDBObject("count", 0),
                 "function(obj,prev) {prev.count++;}",
                 null);
 
         BasicDBList results = (BasicDBList) cars.group(cmd);
         ArrayList<String> makes = new ArrayList<>();
-        for (Object result : results) {
-            BasicDBObject dbObject = (BasicDBObject) result;
-            makes.add((String) dbObject.get("make"));
-        }
+        results.forEach((dbObject) -> makes.add((String) ((BasicDBObject) dbObject).get("make")));
         return makes;
     }
 
