@@ -72,12 +72,12 @@ public class MongoDbCarListings implements CarListings {
     private List<Integer> executeRangeGrouping(String field, Integer greaterThan, Integer lessThan) {
         DBCollection cars = mongoTemplate.getCollection("car");
         GroupCommand groupCommand = new GroupCommand(cars,
-                new BasicDBObject(field, 1),
-                new BasicDBObject("$and", new BasicDBList(){{
-                    add(new BasicDBObject(field, new BasicDBObject("$gt", greaterThan)));
-                    add(new BasicDBObject(field, new BasicDBObject("$lt", lessThan)));
-                }}),
-                new BasicDBObject("count", 0),
+                dbObject(field, 1),
+                dbObject("$and", dbList(
+                    dbObject(field, dbObject("$gt", greaterThan)),
+                    dbObject(field, dbObject("$lt", lessThan))
+                )),
+                dbObject("count", 0),
                 "function(obj,prev) {prev.count++;}",
                 null);
 
@@ -90,9 +90,9 @@ public class MongoDbCarListings implements CarListings {
     private List<String> executeStartsWithGrouping(String field, String startsWith) {
         DBCollection cars = mongoTemplate.getCollection("car");
         GroupCommand groupCommand = new GroupCommand(cars,
-                new BasicDBObject(field, 1),
-                new BasicDBObject(field, new BasicDBObject("$regex", "^" + startsWith)),
-                new BasicDBObject("count", 0),
+                dbObject(field, 1),
+                dbObject(field, dbObject("$regex", "^" + startsWith)),
+                dbObject("count", 0),
                 "function(obj,prev) {prev.count++;}",
                 null);
 
@@ -100,6 +100,18 @@ public class MongoDbCarListings implements CarListings {
         List<String> makes = new ArrayList<>();
         results.forEach((dbObject) -> makes.add((String) ((BasicDBObject) dbObject).get(field)));
         return makes;
+    }
+    
+    private static BasicDBObject dbObject(String key, Object object){
+        return new BasicDBObject(key, object);
+    }
+
+    private static BasicDBList dbList(BasicDBObject... objects){
+        return new BasicDBList(){{
+            for (BasicDBObject object : objects) {
+                add(object);
+            }
+        }};
     }
 
 }
