@@ -246,7 +246,70 @@ public class MongoDbCarListingsIntegrationTest {
         assertThat(makes.get(1), is(equalTo(2005)));
         assertThat(makes.get(2), is(equalTo(2006)));
     }
-     // TODO add year lengths
-    // TODO what if invalid year?        size and character
+
+    @Test
+    public void findAllYearStartingWithExact() {
+        mongoDbCarListings.add(car("Audi", "A6", 1920, 40000));
+        mongoDbCarListings.add(car("Audi", "A10", 2004, 40000));
+        mongoDbCarListings.add(car("Austin Martin", "34", 2005, 30000));
+        mongoDbCarListings.add(car("Jaguar", "X6", 2005, 30000));
+        mongoDbCarListings.add(car("Nissan", "ZX", 2006, 10000));
+        mongoDbCarListings.add(car("Nissan", "ZX", 2010, 10000));
+
+        List<Integer> makes = mongoDbCarListings.year("2005");
+
+        assertThat(makes.size(), is(1));
+        assertThat(makes.get(0), is(equalTo(2005)));
+    }
+
+    @Test
+    public void findAllYearStartingWith2Chars() {
+        mongoDbCarListings.add(car("Audi", "A6", 1920, 40000));
+        mongoDbCarListings.add(car("Audi", "A10", 2004, 40000));
+        mongoDbCarListings.add(car("Austin Martin", "34", 2005, 30000));
+        mongoDbCarListings.add(car("Jaguar", "X6", 2005, 30000));
+        mongoDbCarListings.add(car("Nissan", "ZX", 2006, 10000));
+        mongoDbCarListings.add(car("Nissan", "ZX", 2010, 10000));
+
+        List<Integer> makes = mongoDbCarListings.year("20");
+
+        assertThat(makes.size(), is(4));
+        assertThat(makes.get(0), is(equalTo(2004)));
+        assertThat(makes.get(1), is(equalTo(2005)));
+        assertThat(makes.get(2), is(equalTo(2006)));
+        assertThat(makes.get(3), is(equalTo(2010)));
+    }
+
+    @Test
+    public void findAllYearStartingWith1Chars() {
+        mongoDbCarListings.add(car("Audi", "A6", 1920, 40000));
+        mongoDbCarListings.add(car("Audi", "A7", 1945, 40000));
+        mongoDbCarListings.add(car("Audi", "A10", 2004, 40000));
+        mongoDbCarListings.add(car("Austin Martin", "34", 2005, 30000));
+        mongoDbCarListings.add(car("Jaguar", "X6", 2005, 30000));
+        mongoDbCarListings.add(car("Nissan", "ZX", 2006, 10000));
+        mongoDbCarListings.add(car("Nissan", "ZX", 2010, 10000));
+
+        List<Integer> makes = mongoDbCarListings.year("1");
+
+        assertThat(makes.size(), is(2));
+        assertThat(makes.get(0), is(equalTo(1920)));
+        assertThat(makes.get(1), is(equalTo(1945)));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void exceptionWhenYearHasTooManyChars() {
+        mongoDbCarListings.year("19184");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void exceptionWhenYearHasFewChars() {
+        mongoDbCarListings.year("");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void exceptionWhenYearHasIsNotNumerical() {
+        mongoDbCarListings.year("abc123");
+    }
 
 }
