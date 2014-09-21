@@ -247,6 +247,6 @@ public class MongoDbCarListingsIntegrationTest {
         assertThat(makes.get(2), is(equalTo(2006)));
     }
      // TODO add year lengths
-    // TODO what if invalid year?
+    // TODO what if invalid year?        size and character
 
 }

@@ -44,34 +44,28 @@ public class MongoDbCarListings implements CarListings {
 
     @Override
     public List<Integer> year(String startsWith) {
-        return executeRangeGrouping("year", Integer.valueOf(padLowerBound(startsWith)), Integer.valueOf(padHigherBound(startsWith)));
+        return executeRangeGrouping("year", Integer.valueOf(padYearLowerBound(startsWith)), Integer.valueOf(padYearHigherBound(startsWith)));
     }
 
     public List<Car> match(CarSearch carSearch) {
         return mongoTemplate.find(query(carSearch.toCriteria()), Car.class);
     }
 
-    private String padLowerBound(String toPad) {
-        if (toPad.length() == 1) {
-            return toPad + "000";
-        } else if (toPad.length() == 2) {
-            return toPad + "00";
-        } else if (toPad.length() == 3) {
-            return toPad + "0";
-        } else {
-            return toPad;
-        }
+    private String padYearLowerBound(String toPad) {
+        return padYear(toPad, '0');
     }
 
-    private String padHigherBound(String toPad) {
-        if (toPad.length() == 1) {
-            return toPad + "999";
-        } else if (toPad.length() == 2) {
-            return toPad + "99";
-        } else if (toPad.length() == 3) {
-            return toPad + "9";
-        } else {
-            return toPad;
+    private String padYearHigherBound(String toPad) {
+        return padYear(toPad, '9');
+    }
+
+    private String padYear(String toPad, char padChar) {
+        switch (toPad.length()) {
+            case 1: return toPad + padChar + padChar + padChar;
+            case 2: return toPad + padChar + padChar;
+            case 3: return toPad + padChar;
+            case 4: return toPad;
+            default: throw new IllegalArgumentException("Year must be valid");
         }
     }
 
