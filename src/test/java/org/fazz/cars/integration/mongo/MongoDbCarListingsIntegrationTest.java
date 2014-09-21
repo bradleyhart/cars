@@ -230,5 +230,23 @@ public class MongoDbCarListingsIntegrationTest {
         assertThat(makes.get(1), is(equalTo("A101")));
     }
 
+    @Test
+    public void findAllYearStartingWith() {
+        mongoDbCarListings.add(car("Audi", "A6", 1920, 40000));
+        mongoDbCarListings.add(car("Audi", "A10", 2004, 40000));
+        mongoDbCarListings.add(car("Austin Martin", "34", 2005, 30000));
+        mongoDbCarListings.add(car("Jaguar", "X6", 2005, 30000));
+        mongoDbCarListings.add(car("Nissan", "ZX", 2006, 10000));
+        mongoDbCarListings.add(car("Nissan", "ZX", 2010, 10000));
+
+        List<Integer> makes = mongoDbCarListings.year("200");
+
+        assertThat(makes.size(), is(3));
+        assertThat(makes.get(0), is(equalTo(2004)));
+        assertThat(makes.get(1), is(equalTo(2005)));
+        assertThat(makes.get(2), is(equalTo(2006)));
+    }
+     // TODO add year lengths
+    // TODO what if invalid year?
 
 }

@@ -15,4 +15,6 @@ public interface CarListings {
     List<String> make(String startsWith);
 
     List<String> model(String startsWith);
+
+    List<Integer> year(String startsWith);
 }

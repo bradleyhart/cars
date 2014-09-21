@@ -34,31 +34,78 @@ public class MongoDbCarListings implements CarListings {
 
     @Override
     public List<String> make(String startsWith) {
-        return exeuteStartsWithGroup(startsWith, "make");
+        return executeStartsWithGrouping("make", startsWith);
     }
 
     @Override
     public List<String> model(String startsWith) {
-        return exeuteStartsWithGroup(startsWith, "model");
+        return executeStartsWithGrouping("model", startsWith);
     }
 
-    private List<String> exeuteStartsWithGroup(String startsWith, String field) {
+    @Override
+    public List<Integer> year(String startsWith) {
+        return executeRangeGrouping("year", Integer.valueOf(padLowerBound(startsWith)), Integer.valueOf(padHigherBound(startsWith)));
+    }
+
+    public List<Car> match(CarSearch carSearch) {
+        return mongoTemplate.find(query(carSearch.toCriteria()), Car.class);
+    }
+
+    private String padLowerBound(String toPad) {
+        if (toPad.length() == 1) {
+            return toPad + "000";
+        } else if (toPad.length() == 2) {
+            return toPad + "00";
+        } else if (toPad.length() == 3) {
+            return toPad + "0";
+        } else {
+            return toPad;
+        }
+    }
+
+    private String padHigherBound(String toPad) {
+        if (toPad.length() == 1) {
+            return toPad + "999";
+        } else if (toPad.length() == 2) {
+            return toPad + "99";
+        } else if (toPad.length() == 3) {
+            return toPad + "9";
+        } else {
+            return toPad;
+        }
+    }
+
+    private List<Integer> executeRangeGrouping(String field, Integer greaterThan, Integer lessThan) {
         DBCollection cars = mongoTemplate.getCollection("car");
-        GroupCommand cmd = new GroupCommand(cars,
+        GroupCommand groupCommand = new GroupCommand(cars,
+                new BasicDBObject(field, 1),
+                new BasicDBObject("$and", new BasicDBList(){{
+                    add(new BasicDBObject(field, new BasicDBObject("$gt", greaterThan)));
+                    add(new BasicDBObject(field, new BasicDBObject("$lt", lessThan)));
+                }}),
+                new BasicDBObject("count", 0),
+                "function(obj,prev) {prev.count++;}",
+                null);
+
+        BasicDBList results = (BasicDBList) cars.group(groupCommand);
+        List<Integer> makes = new ArrayList<>();
+        results.forEach((dbObject) -> makes.add(((Double) ((BasicDBObject) dbObject).get(field)).intValue()));
+        return makes;
+    }
+
+    private List<String> executeStartsWithGrouping(String field, String startsWith) {
+        DBCollection cars = mongoTemplate.getCollection("car");
+        GroupCommand groupCommand = new GroupCommand(cars,
                 new BasicDBObject(field, 1),
                 new BasicDBObject(field, new BasicDBObject("$regex", "^" + startsWith)),
                 new BasicDBObject("count", 0),
                 "function(obj,prev) {prev.count++;}",
                 null);
 
-        BasicDBList results = (BasicDBList) cars.group(cmd);
-        ArrayList<String> makes = new ArrayList<>();
+        BasicDBList results = (BasicDBList) cars.group(groupCommand);
+        List<String> makes = new ArrayList<>();
         results.forEach((dbObject) -> makes.add((String) ((BasicDBObject) dbObject).get(field)));
         return makes;
-    }
-
-    public List<Car> match(CarSearch carSearch) {
-        return mongoTemplate.find(query(carSearch.toCriteria()), Car.class);
     }
 
 }
