@@ -1,6 +1,9 @@
 package org.fazz.session;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.mongodb.core.query.Criteria;
+
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 public class CarSearch {
 
@@ -31,10 +34,10 @@ public class CarSearch {
 
     public Criteria toCriteria() {
         Criteria criteria = new Criteria();
-        if (make != null) {
+        if (isNotBlank(make)) {
             criteria.and("make").is(make);
         }
-        if (model != null) {
+        if (isNotBlank(model)) {
             criteria.and("model").is(model);
         }
         if (price != null) {

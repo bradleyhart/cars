@@ -15,7 +15,7 @@
     <dd id="model">${car.model}</dd>
 
     <dt>Year</dt>
-    <dd id="year">${car.year}</dd>
+    <dd id="year">${car.year?c}</dd>
 
     <dt>Price</dt>
     <dd id="price">${car.price}</dd>

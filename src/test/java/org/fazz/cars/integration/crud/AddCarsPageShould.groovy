@@ -50,7 +50,7 @@ class AddCarsPageShould extends GebReportingSpec {
         then:
         $("#make").text() == "Peugeot"
         $("#model").text() == "206"
-        $("#year").text() == "2,014"
+        $("#year").text() == "2014"
         $("#price").text() == "30,000"
     }
 

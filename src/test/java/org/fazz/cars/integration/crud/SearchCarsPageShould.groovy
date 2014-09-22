@@ -60,8 +60,140 @@ class SearchCarsPageShould extends GebReportingSpec {
         then:
         $(".make").text() == "Peugeot"
         $(".model").text() == "206"
-        $(".year").text() == "2,014"
+        $(".year").text() == "2014"
         $(".price").text() == "30,000"
     }
+
+    def "can search cars and show multiple results"() {
+        given:
+        MongoDb.isRunning()
+        MongoDb.isEmpty()
+        WebApplication.isRunning()
+
+        to AddCarPage
+        addCar("Peugeot", "206", "2014", "30000")
+        to AddCarPage
+        addCar("Peugeot", "407", "2012", "2000")
+        to AddCarPage
+        addCar("Renault", "Clio", "2011", "2000")
+
+        when:
+        to SearchCarsPage
+        $("form").make() << "Peugeot"
+        $("#search").click(SearchCarsResultsPage)
+
+        then:
+        $("li").size() == 2
+        $("li")[0].find(".make").text() == "Peugeot"
+        $("li")[0].find(".model").text() == "206"
+        $("li")[0].find(".year").text() == "2014"
+        $("li")[0].find(".price").text() == "30,000"
+
+        $("li")[1].find(".make").text() == "Peugeot"
+        $("li")[1].find(".model").text() == "407"
+        $("li")[1].find(".year").text() == "2012"
+        $("li")[1].find(".price").text() == "2,000"
+    }
+
+    def "can search using model"() {
+        given:
+        MongoDb.isRunning()
+        MongoDb.isEmpty()
+        WebApplication.isRunning()
+
+        to AddCarPage
+        addCar("Peugeot", "206", "2014", "30000")
+        to AddCarPage
+        addCar("Peugeot", "407", "2012", "2000")
+
+        when:
+        to SearchCarsPage
+        $("form").model() << "206"
+        $("#search").click(SearchCarsResultsPage)
+
+        then:
+        $("li").size() == 1
+        $("li")[0].find(".make").text() == "Peugeot"
+        $("li")[0].find(".model").text() == "206"
+        $("li")[0].find(".year").text() == "2014"
+        $("li")[0].find(".price").text() == "30,000"
+    }
+
+    def "can search using price"() {
+        given:
+        MongoDb.isRunning()
+        MongoDb.isEmpty()
+        WebApplication.isRunning()
+
+        to AddCarPage
+        addCar("Peugeot", "206", "2014", "30000")
+        to AddCarPage
+        addCar("Peugeot", "407", "2012", "2000")
+
+        when:
+        to SearchCarsPage
+        $("form").price() << "30000"
+        $("#search").click(SearchCarsResultsPage)
+
+        then:
+        $("li").size() == 1
+        $("li")[0].find(".make").text() == "Peugeot"
+        $("li")[0].find(".model").text() == "206"
+        $("li")[0].find(".year").text() == "2014"
+        $("li")[0].find(".price").text() == "30,000"
+    }
+
+    def "can search using year"() {
+        given:
+        MongoDb.isRunning()
+        MongoDb.isEmpty()
+        WebApplication.isRunning()
+
+        to AddCarPage
+        addCar("Peugeot", "206", "2014", "30000")
+        to AddCarPage
+        addCar("Peugeot", "407", "2012", "2000")
+
+        when:
+        to SearchCarsPage
+        $("form").year() << "2014"
+        $("#search").click(SearchCarsResultsPage)
+
+        then:
+        $("li").size() == 1
+        $("li")[0].find(".make").text() == "Peugeot"
+        $("li")[0].find(".model").text() == "206"
+        $("li")[0].find(".year").text() == "2014"
+        $("li")[0].find(".price").text() == "30,000"
+    }
+
+    def "can search using combinations"() {
+        given:
+        MongoDb.isRunning()
+        MongoDb.isEmpty()
+        WebApplication.isRunning()
+
+        to AddCarPage
+        addCar("Peugeot", "206", "2014", "30000")
+        to AddCarPage
+        addCar("Peugeot", "407", "2012", "2000")
+        to AddCarPage
+        addCar("Peugeot", "507", "2014", "2000")
+
+
+        when:
+        to SearchCarsPage
+        $("form").year() << "2014"
+        $("form").model() << "206"
+        $("#search").click(SearchCarsResultsPage)
+
+        then:
+        $("li").size() == 1
+        $("li")[0].find(".make").text() == "Peugeot"
+        $("li")[0].find(".model").text() == "206"
+        $("li")[0].find(".year").text() == "2014"
+        $("li")[0].find(".price").text() == "30,000"
+    }
+
 
 }

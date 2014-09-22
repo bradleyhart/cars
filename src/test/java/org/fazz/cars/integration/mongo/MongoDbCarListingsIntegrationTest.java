@@ -156,6 +156,24 @@ public class MongoDbCarListingsIntegrationTest {
     }
 
     @Test
+    public void findCarThatMatchesShouldIgnoreBlankString() {
+        Car audi = car("Audi", "A6", 2004, 40000);
+        mongoDbCarListings.add(audi);
+        mongoDbCarListings.add(car("Jaguar", "X6", 2005, 30000));
+        mongoDbCarListings.add(car("Nissan", "ZX", 2006, 10000));
+
+        CarSearch search = carSearch();
+        search.setModel("");
+        search.setMake("");
+        search.setPrice(40000);
+
+        List<Car> cars = mongoDbCarListings.match(search);
+
+        assertThat(cars.size(), is(1));
+        assertThat(cars.get(0), is(audi));
+    }
+
+    @Test
     public void findNoCarsWhenOneCriteriaDoesNotMatch() {
         Car audi = car("Audi", "A6", 2004, 40000);
         mongoDbCarListings.add(audi);

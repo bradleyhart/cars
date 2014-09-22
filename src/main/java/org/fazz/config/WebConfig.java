@@ -28,9 +28,9 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public FreeMarkerConfigurer configureFreeMarker() throws IOException, TemplateException {
         FreeMarkerConfigurationFactory factory = new FreeMarkerConfigurationFactory();
         factory.setTemplateLoaderPath("classpath:freemarker");
-        FreeMarkerConfigurer result = new FreeMarkerConfigurer();
-        result.setConfiguration(factory.createConfiguration());
-        return result;
+        FreeMarkerConfigurer freemarkerConfigurer = new FreeMarkerConfigurer();
+        freemarkerConfigurer.setConfiguration(factory.createConfiguration());
+        return freemarkerConfigurer;
     }
 
     @Bean
