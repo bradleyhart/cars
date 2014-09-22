@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Search Cars</title>
-</head>
+<#import "layout/layout.ftl" as layout>
 
-<body>
+<@layout.defaultLayout "Search Cars">
 <form action="search-cars" method="post">
     <label for="make">Make: </label><input id="make" name="make" type="text"/>
     <label for="model">Model: </label><input id="model" name="model" type="text"/>
@@ -12,6 +8,4 @@
     <label for="price">Price: </label><input id="price" name="price" type="text"/>
     <input id="search" type="submit" value="Search"/>
 </form>
-</body>
-
-</html>
+</@layout.defaultLayout>

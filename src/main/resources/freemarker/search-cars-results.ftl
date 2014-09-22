@@ -1,29 +1,23 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Search Cars Results</title>
-</head>
+<#import "layout/layout.ftl" as layout>
 
-<body>
+<@layout.defaultLayout "Search Cars Results">
 <ul>
-<#list cars as car>
-    <li>
-        <dl>
-            <dt>Make</dt>
-            <dd class="make">${car.make}</dd>
+    <#list cars as car>
+        <li>
+            <dl>
+                <dt>Make</dt>
+                <dd class="make">${car.make}</dd>
 
-            <dt>Model</dt>
-            <dd class="model">${car.model}</dd>
+                <dt>Model</dt>
+                <dd class="model">${car.model}</dd>
 
-            <dt>Year</dt>
-            <dd class="year">${car.year?c}</dd>
+                <dt>Year</dt>
+                <dd class="year">${car.year?c}</dd>
 
-            <dt>Price</dt>
-            <dd class="price">${car.price}</dd>
-        </dl>
-    </li>
-</#list>
+                <dt>Price</dt>
+                <dd class="price">${car.price}</dd>
+            </dl>
+        </li>
+    </#list>
 </ul>
-
-</body>
-</html>
+</@layout.defaultLayout>

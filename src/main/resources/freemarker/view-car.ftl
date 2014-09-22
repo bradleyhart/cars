@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>View Car</title>
-</head>
+<#import "layout/layout.ftl" as layout>
 
-<body>
-</body>
-
+<@layout.defaultLayout "View Car">
 <dl>
     <dt>Make</dt>
     <dd id="make">${car.make}</dd>
@@ -20,5 +14,4 @@
     <dt>Price</dt>
     <dd id="price">${car.price}</dd>
 </dl>
-
-</html>
+</@layout.defaultLayout>

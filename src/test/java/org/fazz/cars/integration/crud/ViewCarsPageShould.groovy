@@ -9,7 +9,7 @@ import org.fazz.tomcat.WebApplication
 
 class ViewCarsPageShould extends GebReportingSpec {
 
-    def "have title add car"() {
+    def "have title view car"() {
         given:
         WebApplication.isRunning()
 
