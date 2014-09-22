@@ -1,4 +1,4 @@
-package org.fazz.service;
+package org.fazz.util;
 
 import com.mongodb.*;
 
@@ -7,9 +7,9 @@ import java.util.List;
 
 public class MongoDriverFactory {
 
-    static final String EMPTY_REDUCE = "function(obj,prev) {}";
-    static final BasicDBObject EMPTY_INITIAL = dbObject("count", 0);
-    static final String EMPTY_FINIALIZE = null;
+    public static final String EMPTY_REDUCE = "function(obj,prev) {}";
+    public static final BasicDBObject EMPTY_INITIAL = dbObject("count", 0);
+    public static final String EMPTY_FINIALIZE = null;
 
     public static BasicDBObject dbObject(String key, Object object){
         return new BasicDBObject(key, object);

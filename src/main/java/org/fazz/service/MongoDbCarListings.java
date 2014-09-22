@@ -2,14 +2,16 @@ package org.fazz.service;
 
 import com.mongodb.*;
 import org.fazz.model.Car;
+import org.fazz.session.CarSearch;
+import org.fazz.util.MongoDriverFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.fazz.service.MongoDriverFactory.*;
-import static org.fazz.service.YearPadder.padYearHigherBound;
-import static org.fazz.service.YearPadder.padYearLowerBound;
+import static org.fazz.util.MongoDriverFactory.*;
+import static org.fazz.util.YearPadder.padYearHigherBound;
+import static org.fazz.util.YearPadder.padYearLowerBound;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
 public class MongoDbCarListings implements CarListings {
@@ -52,6 +54,7 @@ public class MongoDbCarListings implements CarListings {
                 Integer.valueOf(padYearHigherBound(startsWith)));
     }
 
+    @Override
     public List<Car> match(CarSearch carSearch) {
         return mongoTemplate.find(query(carSearch.toCriteria()), Car.class);
     }

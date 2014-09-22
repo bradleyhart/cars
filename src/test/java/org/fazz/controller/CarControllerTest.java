@@ -3,6 +3,7 @@ package org.fazz.controller;
 
 import org.fazz.model.Car;
 import org.fazz.service.CarListings;
+import org.fazz.session.CarSearch;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.web.servlet.ModelAndView;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.fazz.model.Car.car;
+import static org.fazz.session.CarSearch.carSearch;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
@@ -36,6 +38,40 @@ public class CarControllerTest {
 
         assertThat(redirect, is(equalTo("redirect:view-car/car-id")));
         verify(carListings).add(car);
+    }
+
+    @Test
+    public void addCarPageHasCorrectView() {
+        ModelAndView modelAndView = carController.addCarPage();
+
+        assertThat(modelAndView.getViewName(), is(equalTo("add-car")));
+    }
+
+    @Test
+    public void searchCarPageHasCorrectView() {
+        ModelAndView modelAndView = carController.searchCarsPage();
+
+        assertThat(modelAndView.getViewName(), is(equalTo("search-cars")));
+    }
+
+    @Test
+    public void performsSearchAndRedirectsToResults() {
+        CarSearch carSearch = carSearch();
+        carSearch.setMake("Audi");
+        carSearch.setModel("TT");
+        carSearch.setYear(2003);
+        carSearch.setPrice(30000);
+
+        List<Car> cars = new ArrayList<Car>(){{
+            add(car("Audi", "TT", 2003, 30000));
+        }};
+        when(carListings.match(carSearch)).thenReturn(cars);
+
+        ModelAndView modelAndView = carController.searchCar(carSearch);
+
+        assertThat(modelAndView.getViewName(), is(equalTo("search-cars-results")));
+        assertThat((List<Car>)modelAndView.getModel().get("cars"), is(equalTo(cars)));
+        verify(carListings).match(carSearch);
     }
 
     @Test

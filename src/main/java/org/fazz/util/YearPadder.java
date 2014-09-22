@@ -1,4 +1,4 @@
-package org.fazz.service;
+package org.fazz.util;
 
 public class YearPadder {
 

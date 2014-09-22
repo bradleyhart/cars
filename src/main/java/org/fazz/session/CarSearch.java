@@ -1,4 +1,4 @@
-package org.fazz.service;
+package org.fazz.session;
 
 import org.springframework.data.mongodb.core.query.Criteria;
 

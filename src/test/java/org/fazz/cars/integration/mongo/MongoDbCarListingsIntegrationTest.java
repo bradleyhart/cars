@@ -2,7 +2,7 @@ package org.fazz.cars.integration.mongo;
 
 import org.fazz.model.Car;
 import org.fazz.mongo.MongoDb;
-import org.fazz.service.CarSearch;
+import org.fazz.session.CarSearch;
 import org.fazz.service.MongoDbCarListings;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertThat;
 import java.util.List;
 
 import static org.fazz.model.Car.car;
-import static org.fazz.service.CarSearch.carSearch;
+import static org.fazz.session.CarSearch.carSearch;
 import static org.hamcrest.CoreMatchers.is;
 
 public class MongoDbCarListingsIntegrationTest {

@@ -1,6 +1,7 @@
 package org.fazz.service;
 
 import org.fazz.model.Car;
+import org.fazz.session.CarSearch;
 
 import java.util.List;
 
@@ -17,4 +18,6 @@ public interface CarListings {
     List<String> model(String startsWith);
 
     List<Integer> year(String startsWith);
+
+    List<Car> match(CarSearch carSearch);
 }
