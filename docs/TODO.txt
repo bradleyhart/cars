@@ -1,0 +1,4 @@
+- make endpoints restful
+- don't redirect
+
+- keep spike - add autocomplete tests
