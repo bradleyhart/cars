@@ -6,7 +6,21 @@
 </head>
 
 <body>
-<#nested body/>
+
+<header>
+    <nav>
+        <ul>
+            <li><a href="/view-cars">All</a></li>
+            <li><a href="/add-car">Add</a></li>
+            <li><a href="/search-cars">Search</a></li>
+        </ul>
+    </nav>
+</header>
+
+<article>
+    <#nested />
+</article>
+
 </body>
 
 </html>

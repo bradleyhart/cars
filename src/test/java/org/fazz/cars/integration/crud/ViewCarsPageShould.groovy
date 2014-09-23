@@ -34,8 +34,8 @@ class ViewCarsPageShould extends GebReportingSpec {
         to ViewCarsPage
 
         then:
-        $("li").size() == 3
-        $("li")[0].find(".make").text() == "Peugeot"
+        $(".car").size() == 3
+        $(".car")[0].find(".make").text() == "Peugeot"
     }
 
     def addCar(String make, String model, String year, String price) {

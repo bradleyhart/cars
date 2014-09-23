@@ -1,7 +1,7 @@
 <#import "layout/layout.ftl" as layout>
 
 <@layout.defaultLayout "View Car">
-<dl>
+<dl class="car">
     <dt>Make</dt>
     <dd id="make">${car.make}</dd>
 

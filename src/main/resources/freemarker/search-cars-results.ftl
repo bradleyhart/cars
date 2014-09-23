@@ -1,10 +1,10 @@
 <#import "layout/layout.ftl" as layout>
 
 <@layout.defaultLayout "Search Cars Results">
-<ul>
+<ul class="results">
     <#list cars as car>
         <li>
-            <dl>
+            <dl class="car">
                 <dt>Make</dt>
                 <dd class="make">${car.make}</dd>
 

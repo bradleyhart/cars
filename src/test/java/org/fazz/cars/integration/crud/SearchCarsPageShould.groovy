@@ -83,16 +83,17 @@ class SearchCarsPageShould extends GebReportingSpec {
         $("#search").click(SearchCarsResultsPage)
 
         then:
-        $("li").size() == 2
-        $("li")[0].find(".make").text() == "Peugeot"
-        $("li")[0].find(".model").text() == "206"
-        $("li")[0].find(".year").text() == "2014"
-        $("li")[0].find(".price").text() == "30,000"
+        def results = $(".car")
+        results.size() == 2
+        results[0].find(".make").text() == "Peugeot"
+        results[0].find(".model").text() == "206"
+        results[0].find(".year").text() == "2014"
+        results[0].find(".price").text() == "30,000"
 
-        $("li")[1].find(".make").text() == "Peugeot"
-        $("li")[1].find(".model").text() == "407"
-        $("li")[1].find(".year").text() == "2012"
-        $("li")[1].find(".price").text() == "2,000"
+        results[1].find(".make").text() == "Peugeot"
+        results[1].find(".model").text() == "407"
+        results[1].find(".year").text() == "2012"
+        results[1].find(".price").text() == "2,000"
     }
 
     def "can search using model"() {
@@ -112,11 +113,12 @@ class SearchCarsPageShould extends GebReportingSpec {
         $("#search").click(SearchCarsResultsPage)
 
         then:
-        $("li").size() == 1
-        $("li")[0].find(".make").text() == "Peugeot"
-        $("li")[0].find(".model").text() == "206"
-        $("li")[0].find(".year").text() == "2014"
-        $("li")[0].find(".price").text() == "30,000"
+        def results = $(".car")
+        results.size() == 1
+        results[0].find(".make").text() == "Peugeot"
+        results[0].find(".model").text() == "206"
+        results[0].find(".year").text() == "2014"
+        results[0].find(".price").text() == "30,000"
     }
 
     def "can search using price"() {
@@ -136,11 +138,12 @@ class SearchCarsPageShould extends GebReportingSpec {
         $("#search").click(SearchCarsResultsPage)
 
         then:
-        $("li").size() == 1
-        $("li")[0].find(".make").text() == "Peugeot"
-        $("li")[0].find(".model").text() == "206"
-        $("li")[0].find(".year").text() == "2014"
-        $("li")[0].find(".price").text() == "30,000"
+        def results = $(".car")
+        results.size() == 1
+        results[0].find(".make").text() == "Peugeot"
+        results[0].find(".model").text() == "206"
+        results[0].find(".year").text() == "2014"
+        results[0].find(".price").text() == "30,000"
     }
 
     def "can search using year"() {
@@ -160,11 +163,12 @@ class SearchCarsPageShould extends GebReportingSpec {
         $("#search").click(SearchCarsResultsPage)
 
         then:
-        $("li").size() == 1
-        $("li")[0].find(".make").text() == "Peugeot"
-        $("li")[0].find(".model").text() == "206"
-        $("li")[0].find(".year").text() == "2014"
-        $("li")[0].find(".price").text() == "30,000"
+        def results = $(".car")
+        results.size() == 1
+        results[0].find(".make").text() == "Peugeot"
+        results[0].find(".model").text() == "206"
+        results[0].find(".year").text() == "2014"
+        results[0].find(".price").text() == "30,000"
     }
 
     def "can search using combinations"() {
@@ -188,11 +192,12 @@ class SearchCarsPageShould extends GebReportingSpec {
         $("#search").click(SearchCarsResultsPage)
 
         then:
-        $("li").size() == 1
-        $("li")[0].find(".make").text() == "Peugeot"
-        $("li")[0].find(".model").text() == "206"
-        $("li")[0].find(".year").text() == "2014"
-        $("li")[0].find(".price").text() == "30,000"
+        def results = $(".car")
+        results.size() == 1
+        results[0].find(".make").text() == "Peugeot"
+        results[0].find(".model").text() == "206"
+        results[0].find(".year").text() == "2014"
+        results[0].find(".price").text() == "30,000"
     }
 
 
