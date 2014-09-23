@@ -3,6 +3,9 @@
 <html>
 <head>
     <title>${title}</title>
+    <script src="/resources/js/jquery.1.10.2.min.js"></script>
+    <script src="/resources/js/jquery.autocomplete.min.js"></script>
+    <link rel="stylesheet" href="/resources/css/autocomplete.css">
 </head>
 
 <body>

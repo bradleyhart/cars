@@ -5,13 +5,13 @@ import org.fazz.service.CarListings;
 import org.fazz.session.CarSearch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.IntStream.range;
 
 @Controller
 public class CarController {
@@ -30,9 +30,9 @@ public class CarController {
 
     @RequestMapping(value = "/view-car/{id}", method = RequestMethod.GET)
     public ModelAndView viewCarPage(@PathVariable String id) {
-        ModelAndView modelAndView = new ModelAndView("view-car");
-        modelAndView.addObject("car", carListings.get(id));
-        return modelAndView;
+        return new ModelAndView("view-car") {{
+            addObject("car", carListings.get(id));
+        }};
     }
 
     @RequestMapping(value = "/add-car", method = RequestMethod.POST)
@@ -43,9 +43,9 @@ public class CarController {
 
     @RequestMapping(value = "/view-cars", method = RequestMethod.GET)
     public ModelAndView viewCars() {
-        ModelAndView modelAndView = new ModelAndView("view-cars");
-        modelAndView.addObject("cars", carListings.all());
-        return modelAndView;
+        return new ModelAndView("view-cars") {{
+            addObject("cars", carListings.all());
+        }};
     }
 
     @RequestMapping(value = "/search-cars", method = RequestMethod.GET)
@@ -59,5 +59,44 @@ public class CarController {
         modelAndView.addObject("cars", carListings.match(carSearch));
         return modelAndView;
     }
+
+    @RequestMapping(value = "/make-autocomplete", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Suggestion> makes(@RequestParam("make") String make) {
+        return suggestions(carListings.make(make));
+    }
+
+    @RequestMapping(value = "/model-autocomplete", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Suggestion> models(@RequestParam("model") String model) {
+        return suggestions(carListings.model(model));
+    }
+
+    @RequestMapping(value = "/year-autocomplete", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Suggestion> year(@RequestParam("year") String years) {
+        return suggestions(carListings.year(years).stream()
+                .map(Object::toString)
+                .collect(toList()));
+    }
+
+    private List<Suggestion> suggestions(List<String> values) {
+        return range(0, values.size())
+                .mapToObj(index -> new Suggestion(index, values.get(index)))
+                .collect(toList());
+    }
+
+    public class Suggestion {
+
+        public String value;
+        public int data;
+
+        public Suggestion(int data, String value) {
+            this.data = data;
+            this.value = value;
+        }
+
+    }
+
 
 }

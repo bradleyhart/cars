@@ -21,7 +21,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addResourceHandlers( ResourceHandlerRegistry registry ) {
-        registry.addResourceHandler( "/stylesheets/**" ).addResourceLocations( "/stylesheets/" );
+        registry.addResourceHandler( "/resources/**" ).addResourceLocations( "/resources/" );
     }
 
     @Bean
@@ -38,6 +38,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         final FreeMarkerViewResolver resolver = new FreeMarkerViewResolver();
         resolver.setCache(true);
         resolver.setSuffix(".ftl");
+        resolver.setRequestContextAttribute("request");
         return resolver;
     }
 
