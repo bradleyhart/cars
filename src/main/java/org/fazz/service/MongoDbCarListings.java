@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toList;
 import static org.fazz.util.MongoDriverFactory.*;
 import static org.fazz.util.YearPadder.padYearHigherBound;
 import static org.fazz.util.YearPadder.padYearLowerBound;
@@ -68,7 +69,7 @@ public class MongoDbCarListings implements CarListings {
                 ),
                 EMPTY_INITIAL,
                 EMPTY_REDUCE,
-                EMPTY_FINIALIZE))).stream().map(Double::intValue).collect(Collectors.toList());
+                EMPTY_FINIALIZE))).stream().map(Double::intValue).collect(toList());
     }
 
     private List<String> executeStartsWithGrouping(String field, String startsWith) {

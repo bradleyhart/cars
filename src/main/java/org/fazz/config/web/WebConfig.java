@@ -1,4 +1,4 @@
-package org.fazz.config;
+package org.fazz.config.web;
 
 import freemarker.template.TemplateException;
 import org.springframework.context.annotation.Bean;

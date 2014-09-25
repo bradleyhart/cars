@@ -7,7 +7,7 @@
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>org.fazz.config.AppConfig</param-value>
+        <param-value>org.fazz.config</param-value>
     </context-param>
 
     <listener>
@@ -23,7 +23,7 @@
         </init-param>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>org.fazz.config.WebConfig</param-value>
+            <param-value>org.fazz.config.web.WebConfig</param-value>
         </init-param>
     </servlet>
 

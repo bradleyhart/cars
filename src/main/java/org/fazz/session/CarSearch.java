@@ -1,6 +1,5 @@
 package org.fazz.session;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.mongodb.core.query.Criteria;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;

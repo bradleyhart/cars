@@ -24,6 +24,8 @@ public class WebApplication {
     }
 
     public Tomcat start() throws ServletException, LifecycleException {
+        System.setProperty("spring.profiles.active", "development");
+
         String webappLocation = new File("src/main/webapp").getAbsolutePath();
 
         Tomcat tomcat = new Tomcat();
