@@ -88,14 +88,21 @@ public class CarController {
 
     public class Suggestion {
 
-        public String value;
-        public int data;
+        private String value;
+        private int data;
 
         public Suggestion(int data, String value) {
             this.data = data;
             this.value = value;
         }
 
+        public String getValue() {
+            return value;
+        }
+
+        public int getData() {
+            return data;
+        }
     }
 
 
