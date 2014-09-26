@@ -2,9 +2,5 @@ waiting {
     timeout = 2
 }
 
-//driver = {
-//    new FirefoxDriver()
-//}
-
-baseUrl = "http://localhost:8080"
+baseUrl = "http://localhost:9090"
 reportsDir = "target/geb-reports"

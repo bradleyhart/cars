@@ -10,7 +10,7 @@ class HealthCheckShould extends Specification {
         WebApplication.isRunning()
 
         when:
-        def response = new URL("http://localhost:8080/health").text
+        def response = new URL("http://localhost:9090/health").text
 
         then:
         response == "I am running"

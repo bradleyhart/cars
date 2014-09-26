@@ -29,7 +29,7 @@ public class WebApplication {
         String webappLocation = new File("src/main/webapp").getAbsolutePath();
 
         Tomcat tomcat = new Tomcat();
-        tomcat.setPort(8080);
+        tomcat.setPort(9090);
         tomcat.setBaseDir(".");
         tomcat.getHost().setAppBase(webappLocation);
         tomcat.getServer().addLifecycleListener(new AprLifecycleListener());
