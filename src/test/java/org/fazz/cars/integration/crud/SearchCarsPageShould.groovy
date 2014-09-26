@@ -5,15 +5,26 @@ import org.fazz.cars.integration.page.AddCarPage
 import org.fazz.cars.integration.page.SearchCarsPage
 import org.fazz.cars.integration.page.SearchCarsResultsPage
 import org.fazz.cars.integration.page.ViewCarPage
+import org.fazz.database.Database
 import org.fazz.mongo.MongoDb
+import org.fazz.repository.CarSearchRepository
 import org.fazz.tomcat.WebApplication
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext
 
 class SearchCarsPageShould extends GebReportingSpec {
 
-    def "have title search cars"() {
-        given:
+    def setupSpec(){
+        MongoDb.isRunning()
+        Database.isRunning()
         WebApplication.isRunning()
+    }
 
+    def setup(){
+        MongoDb.isEmpty()
+        Database.isEmpty()
+    }
+
+    def "have title search cars"() {
         when:
         to SearchCarsPage
 
@@ -22,9 +33,6 @@ class SearchCarsPageShould extends GebReportingSpec {
     }
 
     def "have title input fields for make, model, year, price and search"() {
-        given:
-        WebApplication.isRunning()
-
         when:
         to SearchCarsPage
 
@@ -38,10 +46,6 @@ class SearchCarsPageShould extends GebReportingSpec {
 
     def "can search cars and show results"() {
         given:
-        MongoDb.isRunning()
-        MongoDb.isEmpty()
-        WebApplication.isRunning()
-
         to AddCarPage
         $("form").make() << "Peugeot"
         $("form").model() << "206"
@@ -66,10 +70,6 @@ class SearchCarsPageShould extends GebReportingSpec {
 
     def "can search cars and show multiple results"() {
         given:
-        MongoDb.isRunning()
-        MongoDb.isEmpty()
-        WebApplication.isRunning()
-
         to AddCarPage
         addCar("Peugeot", "206", "2014", "30000")
         to AddCarPage
@@ -98,10 +98,6 @@ class SearchCarsPageShould extends GebReportingSpec {
 
     def "can search using model"() {
         given:
-        MongoDb.isRunning()
-        MongoDb.isEmpty()
-        WebApplication.isRunning()
-
         to AddCarPage
         addCar("Peugeot", "206", "2014", "30000")
         to AddCarPage
@@ -123,10 +119,6 @@ class SearchCarsPageShould extends GebReportingSpec {
 
     def "can search using price"() {
         given:
-        MongoDb.isRunning()
-        MongoDb.isEmpty()
-        WebApplication.isRunning()
-
         to AddCarPage
         addCar("Peugeot", "206", "2014", "30000")
         to AddCarPage
@@ -148,10 +140,6 @@ class SearchCarsPageShould extends GebReportingSpec {
 
     def "can search using year"() {
         given:
-        MongoDb.isRunning()
-        MongoDb.isEmpty()
-        WebApplication.isRunning()
-
         to AddCarPage
         addCar("Peugeot", "206", "2014", "30000")
         to AddCarPage
@@ -173,10 +161,6 @@ class SearchCarsPageShould extends GebReportingSpec {
 
     def "can search using combinations"() {
         given:
-        MongoDb.isRunning()
-        MongoDb.isEmpty()
-        WebApplication.isRunning()
-
         to AddCarPage
         addCar("Peugeot", "206", "2014", "30000")
         to AddCarPage
@@ -198,6 +182,33 @@ class SearchCarsPageShould extends GebReportingSpec {
         results[0].find(".model").text() == "206"
         results[0].find(".year").text() == "2014"
         results[0].find(".price").text() == "30,000"
+    }
+
+    def "logs search in database"() {
+        given:
+        to AddCarPage
+        $("form").make() << "Peugeot"
+        $("form").model() << "206"
+        $("form").year() << "2014"
+        $("form").price() << "30000"
+        $("#add").click(ViewCarPage)
+
+        when:
+        to SearchCarsPage
+        $("form").make() << "Peugeot"
+        $("form").model() << "206"
+        $("form").year() << "2014"
+        $("form").price() << "30000"
+        $("#search").click(SearchCarsResultsPage)
+
+        then:
+        def searches = Database.searches()
+        searches.size() == 1
+
+        searches[0].make == "Peugeot"
+        searches[0].model == "206"
+        searches[0].year == 2014
+        searches[0].price == 30000
     }
 
 

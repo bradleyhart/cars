@@ -1,11 +1,18 @@
-package org.fazz.session;
+package org.fazz.search;
 
 import org.springframework.data.mongodb.core.query.Criteria;
 
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import javax.persistence.*;
 
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
+import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
+
+@Entity
+@Table(name = "search")
 public class CarSearch {
 
+    private Integer id;
     private String make;
     private String model;
     private Integer year;
@@ -13,6 +20,17 @@ public class CarSearch {
 
     public static CarSearch carSearch() {
         return new CarSearch();
+    }
+
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public void setMake(String make) {
@@ -31,7 +49,23 @@ public class CarSearch {
         this.price = price;
     }
 
-    public Criteria toCriteria() {
+    public String getMake() {
+        return make;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public Criteria toMongoCriteria() {
         Criteria criteria = new Criteria();
         if (isNotBlank(make)) {
             criteria.and("make").is(make);
@@ -46,5 +80,15 @@ public class CarSearch {
             criteria.and("year").is(year);
         }
         return criteria;
+    }
+
+    @Override
+    public int hashCode() {
+        return reflectionHashCode(this);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return reflectionEquals(this, obj);
     }
 }

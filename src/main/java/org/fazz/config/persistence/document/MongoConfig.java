@@ -1,4 +1,4 @@
-package org.fazz.config.nosql;
+package org.fazz.config.persistence.document;
 
 import org.fazz.service.MongoDbCarListings;
 import org.springframework.context.annotation.Bean;

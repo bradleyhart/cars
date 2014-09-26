@@ -1,10 +1,9 @@
-package org.fazz.config.relational;
+package org.fazz.config.persistence.relational;
 
+import org.h2.jdbcx.JdbcDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 import javax.sql.DataSource;
 
@@ -15,11 +14,11 @@ public class InMemoryDataSourceConfig implements DataSourceBean {
     @Bean
     @Override
     public DataSource dataSource() {
-        return new EmbeddedDatabaseBuilder()
-                .setType(EmbeddedDatabaseType.H2)
-                .addScript("classpath:org/fazz/sql/schema.sql")
-                .build();
+        JdbcDataSource dataSource = new JdbcDataSource();
+        dataSource.setURL("jdbc:h2:mem:cars;MODE=MySQL");
+        dataSource.setUser("sa");
+        dataSource.setPassword("sa");
+        return dataSource;
     }
-
 
 }

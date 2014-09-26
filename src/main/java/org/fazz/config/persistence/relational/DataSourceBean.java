@@ -1,4 +1,4 @@
-package org.fazz.config.relational;
+package org.fazz.config.persistence.relational;
 
 import javax.sql.DataSource;
 

@@ -2,12 +2,11 @@ package org.fazz.service;
 
 import com.mongodb.*;
 import org.fazz.model.Car;
-import org.fazz.session.CarSearch;
+import org.fazz.search.CarSearch;
 import org.fazz.util.MongoDriverFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 import static org.fazz.util.MongoDriverFactory.*;
@@ -57,7 +56,7 @@ public class MongoDbCarListings implements CarListings {
 
     @Override
     public List<Car> match(CarSearch carSearch) {
-        return mongoTemplate.find(query(carSearch.toCriteria()), Car.class);
+        return mongoTemplate.find(query(carSearch.toMongoCriteria()), Car.class);
     }
 
     private List<Integer> executeRangeGrouping(String field, Integer greaterThan, Integer lessThan) {

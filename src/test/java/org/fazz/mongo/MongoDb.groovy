@@ -1,6 +1,6 @@
 package org.fazz.mongo
 
-import org.fazz.config.nosql.MongoConfig
+import org.fazz.config.persistence.document.MongoConfig
 import org.fazz.model.Car
 import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.data.mongodb.core.MongoTemplate

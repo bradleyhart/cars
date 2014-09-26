@@ -2,9 +2,9 @@ package org.fazz.controller;
 
 
 import org.fazz.model.Car;
+import org.fazz.repository.CarSearchRepository;
 import org.fazz.service.CarListings;
-import org.fazz.session.CarSearch;
-import org.hamcrest.CoreMatchers;
+import org.fazz.search.CarSearch;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.fazz.model.Car.car;
-import static org.fazz.session.CarSearch.carSearch;
+import static org.fazz.search.CarSearch.carSearch;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
@@ -23,11 +23,13 @@ public class CarControllerTest {
 
     private CarController carController;
     private CarListings carListings;
+    private CarSearchRepository carSearchRepository;
 
     @Before
     public void initializeController() {
         carListings = mock(CarListings.class);
-        carController = new CarController(carListings);
+        carSearchRepository = mock(CarSearchRepository.class);
+        carController = new CarController(carListings, carSearchRepository);
     }
 
     @Test
@@ -74,6 +76,20 @@ public class CarControllerTest {
         assertThat((List<Car>) modelAndView.getModel().get("cars"), is(equalTo(cars)));
         verify(carListings).match(carSearch);
     }
+
+    @Test
+    public void searchIsLoggedToDatabase() {
+        CarSearch carSearch = carSearch();
+        carSearch.setMake("Audi");
+        carSearch.setModel("TT");
+        carSearch.setYear(2003);
+        carSearch.setPrice(30000);
+
+        carController.searchCar(carSearch);
+
+        verify(carSearchRepository).save(carSearch);
+    }
+
 
     @Test
     public void viewCarFromListings() {

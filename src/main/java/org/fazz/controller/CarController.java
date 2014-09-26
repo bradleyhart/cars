@@ -1,8 +1,9 @@
 package org.fazz.controller;
 
 import org.fazz.model.Car;
+import org.fazz.repository.CarSearchRepository;
 import org.fazz.service.CarListings;
-import org.fazz.session.CarSearch;
+import org.fazz.search.CarSearch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +18,12 @@ import static java.util.stream.IntStream.range;
 public class CarController {
 
     private CarListings carListings;
+    private CarSearchRepository carSearchRepository;
 
     @Autowired
-    public CarController(CarListings carListings) {
+    public CarController(CarListings carListings, CarSearchRepository carSearchRepository) {
         this.carListings = carListings;
+        this.carSearchRepository = carSearchRepository;
     }
 
     @RequestMapping(value = "/add-car", method = RequestMethod.GET)
@@ -55,6 +58,7 @@ public class CarController {
 
     @RequestMapping(value = "/search-cars", method = RequestMethod.POST)
     public ModelAndView searchCar(CarSearch carSearch) {
+        carSearchRepository.save(carSearch);
         ModelAndView modelAndView = new ModelAndView("search-cars-results");
         modelAndView.addObject("cars", carListings.match(carSearch));
         return modelAndView;

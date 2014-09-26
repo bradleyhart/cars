@@ -1,7 +1,7 @@
 package org.fazz.service;
 
 import org.fazz.model.Car;
-import org.fazz.session.CarSearch;
+import org.fazz.search.CarSearch;
 
 import java.util.List;
 
